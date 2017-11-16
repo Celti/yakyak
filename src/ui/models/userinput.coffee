@@ -1,5 +1,5 @@
-urlRegexp        = require 'url-regexp'
-{MessageBuilder, OffTheRecordStatus,MessageActionType,ClientDeliveryMediumType} = require 'hangupsjs'
+urlRegexp = require 'url-regex'
+{ MessageBuilder, OffTheRecordStatus, MessageActionType, ClientDeliveryMediumType } = require 'hangupsjs'
 
 viewstate = require './viewstate'
 conv = require './conv'
@@ -7,21 +7,22 @@ conv = require './conv'
 randomid = -> Math.round Math.random() * Math.pow(2,32)
 
 split_first = (str, token) ->
-  start = str.indexOf token
-  first = str.substr 0, start
-  last = str.substr start + token.length
-  [first, last]
+    start = str.indexOf token
+    first = str.substr 0, start
+    last = str.substr start + token.length
+    [first, last]
 
 parse = (mb, txt) ->
     lines = txt.split /\r?\n/
     last = lines.length - 1
     for line, index in lines
-        urls = urlRegexp.match line
-        for url in urls
-            [before, after] = split_first line, url
-            if before then mb.text(before)
-            line = after
-            mb.link url, url
+        urls = line.match urlRegexp()
+        if urls?
+            for url in urls
+                [before, after] = split_first line, url
+                if before then mb.text(before)
+                line = after
+                mb.link url, url
         mb.text line if line
         mb.linebreak() unless index is last
     null
@@ -31,7 +32,7 @@ buildChatMessage = (sender, txt) ->
     conversation_state = conv[conv_id]?.self_conversation_state
     delivery_medium = ClientDeliveryMediumType[conversation_state?.delivery_medium_option[0]?.delivery_medium?.delivery_medium_type]
     if not delivery_medium
-      delivery_medium = ClientDeliveryMediumType.BABEL
+        delivery_medium = ClientDeliveryMediumType.BABEL
     action = null
     if /^\/me\s/.test txt
         txt = txt.replace /^\/me/, sender.first_name
