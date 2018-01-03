@@ -39,7 +39,9 @@
         "leave": "Dejar conversación",
         "leave_confirm": "¿Dejar conversación definitivamente?",
         "search": "Buscar personas",
-        "new_message": "Nuevo Mensaje"
+        "new_message": "Nuevo Mensaje",
+        "new_attachment": "New message received (image or video)",
+        "open_link": "Opening the link in the browser..."
     },
     "notification": {
         "one": "Notificación",
@@ -134,7 +136,7 @@
                 "custom_sound": "Usar sonido custom de YakYak para notificaciones"
             },
             "color_scheme": {
-                "title": "Esqueña de Color",
+                "title": "Esquema de Color",
                 "default": "Original",
                 "blue": "Azul",
                 "dark": "Oscuro",
